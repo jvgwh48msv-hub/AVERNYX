@@ -1,0 +1,1 @@
+export default function Success(){return <main><div className="panel"><h1>Paiement en attente de confirmation</h1><p>Une confirmation serveur est nécessaire avant toute livraison. Cette page ne prouve pas qu'un paiement a été reçu.</p></div></main>}

@@ -1,0 +1,3 @@
+import './style.css';
+export const metadata={title:'AVERNYX | Analyse de risques crypto',description:'Détectez les signaux d’alerte avant d’investir. Analyse indicative, sans garantie.'};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="fr"><body><header className="top"><a className="brand" href="/"><span className="shield">◆</span> AVERNYX</a><nav><a href="/#outil">Analyser</a><a href="/#offres">Offres</a><a href="/trade-risk">Trade Risk</a><a href="/dashboard">Mon espace</a></nav></header>{children}<footer>© AVERNYX — Service d'information, pas un conseil financier. <span>Mentions légales, CGV et confidentialité à compléter avant commercialisation.</span></footer></body></html>}

@@ -85,51 +85,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Vérifier si l'utilisateur est Premium
-    const { data: subscription, error: subscriptionError } =
-      await db
-        .from("subscriptions")
-        .select("status")
-        .eq("user_id", authData.user.id)
-        .maybeSingle();
-
-    if (subscriptionError) {
-      return NextResponse.json(
-        { error: "Impossible de vérifier l'abonnement." },
-        { status: 503 }
-      );
-    }
-
-    const isPremium = ["active", "trialing"].includes(
-      subscription?.status || ""
-    );
-
-    // Limiter les comptes gratuits à 2 analyses
-    if (!isPremium) {
-      const { data: allowed, error: usageError } =
-        await db.rpc("consume_free_analysis", {
-          p_user_id: authData.user.id,
-        });
-
-      if (usageError) {
-        return NextResponse.json(
-          { error: "Impossible de vérifier le quota gratuit." },
-          { status: 503 }
-        );
-      }
-
-      if (!allowed) {
-        return NextResponse.json(
-          {
-            error:
-              "Vos 2 analyses gratuites sont utilisées. Passez à Premium pour continuer.",
-            premiumRequired: true,
-          },
-          { status: 403 }
-        );
-      }
-    }
-
     // Analyse préliminaire du lien
     const host = u.hostname.toLowerCase();
     const findings: string[] = [];

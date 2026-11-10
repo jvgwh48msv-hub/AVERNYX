@@ -17,14 +17,12 @@ export default function Home() {
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [error, setError] = useState("");
   const [loginRequired, setLoginRequired] = useState(false);
-  const [premiumRequired, setPremiumRequired] = useState(false);
 
   async function analyze() {
     setLoading(true);
     setError("");
     setResult(null);
     setLoginRequired(false);
-    setPremiumRequired(false);
 
     try {
       const db = browserDb();
@@ -37,7 +35,7 @@ export default function Home() {
       if (sessionError || !session?.access_token) {
         setLoginRequired(true);
         throw new Error(
-          "Connectez-vous pour profiter de vos 2 analyses gratuites."
+          "Créez un compte gratuit ou connectez-vous pour analyser."
         );
       }
 
@@ -57,9 +55,6 @@ export default function Home() {
           setLoginRequired(true);
         }
 
-        if (data.premiumRequired) {
-          setPremiumRequired(true);
-        }
 
         throw new Error(data.error || "Erreur pendant l'analyse.");
       }
@@ -91,7 +86,7 @@ export default function Home() {
 
         <p className="lead">
           AVERNYX vous aide à identifier les signaux
-          d'alerte sur les sites d'investissement crypto.
+          d'alerte sur les liens suspects et tentatives de fraude bancaire.
           Une analyse préliminaire, sans promesse de
           sécurité absolue.
         </p>
@@ -104,7 +99,7 @@ export default function Home() {
       <section id="outil">
         <div className="panel analyzer">
           <div className="eyebrow">
-            2 analyses gratuites par compte
+            Analyses gratuites avec compte
           </div>
 
           <h2 style={{ textAlign: "left", marginTop: 12 }}>
@@ -128,7 +123,7 @@ export default function Home() {
           </div>
 
           <p className="muted">
-            Connectez-vous pour utiliser vos 2 analyses
+            Connectez-vous pour utiliser les analyses
             gratuites. Ne communiquez jamais votre mot de
             passe, clé privée ou phrase de récupération.
             Nous n'ouvrons pas le site soumis et
@@ -142,12 +137,6 @@ export default function Home() {
               {loginRequired && (
                 <a className="btn" href="/login">
                   Se connecter gratuitement
-                </a>
-              )}
-
-              {premiumRequired && (
-                <a className="btn" href="#offres">
-                  Découvrir Premium
                 </a>
               )}
             </div>
@@ -202,62 +191,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="offres">
-        <h2>Des offres simples</h2>
-
-        <div className="cards">
-          <div className="plan">
-            <h3>Découverte</h3>
-            <div className="price">0 €</div>
-            <p>
-              2 analyses préliminaires gratuites
-              par compte.
-            </p>
-            <a className="btn" href="#outil">
-              Essayer
-            </a>
-          </div>
-
-          <div className="plan featured">
-            <div className="tag">
-              BIENTÔT DISPONIBLE
-            </div>
-            <h3>Premium</h3>
-            <div className="price">
-              4,99 € / mois
-            </div>
-            <p>
-              Analyses préliminaires illimitées,
-              après activation et validation
-              du service.
-            </p>
-            <button disabled>
-              Bientôt disponible
-            </button>
-          </div>
-
-          <div className="plan">
-            <div className="tag">
-              EN PRÉPARATION
-            </div>
-            <h3>Pro</h3>
-            <div className="price">
-              99 € / mois
-            </div>
-            <p>
-              Espace professionnel et analyses
-              récurrentes, après validation
-              du produit.
-            </p>
-            <button disabled>
-              Bientôt disponible
-            </button>
-          </div>
-        </div>
-
-        <div className="notice">
-          Les abonnements payants ne sont pas encore
-          disponibles. Aucun paiement ne sera prélevé.
+      <section>
+        <h2>Détecter une tentative de fraude bancaire</h2>
+        <div className="panel analyzer">
+          <p>Un prétendu conseiller bancaire vous demande un virement, un code ou une validation urgente ?</p>
+          <p>Analysez les signaux d'alerte dans le discours, sans communiquer de données confidentielles.</p>
+          <a className="btn" href="/fraude-bancaire">Analyser un appel suspect →</a>
         </div>
       </section>
     </main>
